@@ -21,16 +21,28 @@ import (
 
 	"github.com/crossplane/terrajet/pkg/controller"
 
-	resource "github.com/crossplane-contrib/provider-jet-template/internal/controller/null/resource"
-	providerconfig "github.com/crossplane-contrib/provider-jet-template/internal/controller/providerconfig"
+	hook "github.com/crossplane-contrib/provider-jet-gitea/internal/controller/git/hook"
+	org "github.com/crossplane-contrib/provider-jet-gitea/internal/controller/gitea/org"
+	repository "github.com/crossplane-contrib/provider-jet-gitea/internal/controller/gitea/repository"
+	team "github.com/crossplane-contrib/provider-jet-gitea/internal/controller/gitea/team"
+	user "github.com/crossplane-contrib/provider-jet-gitea/internal/controller/gitea/user"
+	app "github.com/crossplane-contrib/provider-jet-gitea/internal/controller/oauth2/app"
+	providerconfig "github.com/crossplane-contrib/provider-jet-gitea/internal/controller/providerconfig"
+	key "github.com/crossplane-contrib/provider-jet-gitea/internal/controller/public/key"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		resource.Setup,
+		hook.Setup,
+		org.Setup,
+		repository.Setup,
+		team.Setup,
+		user.Setup,
+		app.Setup,
 		providerconfig.Setup,
+		key.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
