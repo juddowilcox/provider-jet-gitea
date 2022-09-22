@@ -19,7 +19,7 @@ package clients
 import (
 	"context"
 	"encoding/json"
-	"fmt"
+	//"fmt"
 
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/pkg/errors"
