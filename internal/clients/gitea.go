@@ -45,9 +45,6 @@ const (
         keyBaseURL = "base_url"
         keyUsername = "username"
         keyPassword = "password"
-	// Gitea credentials environment variable names
-        envUsername = "GITEA_USERNAME"
-        envPassword = "GITEA_PASSWORD"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -89,14 +86,16 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		// Deprecated: In shared gRPC mode we do not support injecting
 		// credentials via the environment variables. You should specify
 		// credentials via the Terraform main.tf.json instead.
-		ps.Env = []string{
-			fmt.Sprintf(fmtEnvVar, envUsername, giteaCreds[keyUsername]),
-			fmt.Sprintf(fmtEnvVar, envPassword, giteaCreds[keyPassword]),
-		}
+		//ps.Env = []string{
+		//	fmt.Sprintf(fmtEnvVar, envUsername, giteaCreds[keyUsername]),
+		//	fmt.Sprintf(fmtEnvVar, envPassword, giteaCreds[keyPassword]),
+		//}
 		// set credentials in Terraform provider configuration
 		ps.Configuration = map[string]interface{}{}
 		for _, key := range []string{
 			keyBaseURL,
+			keyUsername,
+			keyPassword,
 		} {
 			if giteaCreds[key] != "" {
 				ps.Configuration[key] = giteaCreds[key]
