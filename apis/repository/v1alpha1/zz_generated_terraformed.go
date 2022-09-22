@@ -25,18 +25,18 @@ import (
 	"github.com/crossplane/terrajet/pkg/resource/json"
 )
 
-// GetTerraformResourceType returns Terraform resource type for this Hook
-func (mg *Hook) GetTerraformResourceType() string {
-	return "gitea_git_hook"
+// GetTerraformResourceType returns Terraform resource type for this Repository
+func (mg *Repository) GetTerraformResourceType() string {
+	return "gitea_repository"
 }
 
-// GetConnectionDetailsMapping for this Hook
-func (tr *Hook) GetConnectionDetailsMapping() map[string]string {
-	return nil
+// GetConnectionDetailsMapping for this Repository
+func (tr *Repository) GetConnectionDetailsMapping() map[string]string {
+	return map[string]string{"migration_service_auth_password": "spec.forProvider.migrationServiceAuthPasswordSecretRef", "migration_service_auth_token": "spec.forProvider.migrationServiceAuthTokenSecretRef"}
 }
 
-// GetObservation of this Hook
-func (tr *Hook) GetObservation() (map[string]interface{}, error) {
+// GetObservation of this Repository
+func (tr *Repository) GetObservation() (map[string]interface{}, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -45,8 +45,8 @@ func (tr *Hook) GetObservation() (map[string]interface{}, error) {
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this Hook
-func (tr *Hook) SetObservation(obs map[string]interface{}) error {
+// SetObservation for this Repository
+func (tr *Repository) SetObservation(obs map[string]interface{}) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -54,16 +54,16 @@ func (tr *Hook) SetObservation(obs map[string]interface{}) error {
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this Hook
-func (tr *Hook) GetID() string {
+// GetID returns ID of underlying Terraform resource of this Repository
+func (tr *Repository) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this Hook
-func (tr *Hook) GetParameters() (map[string]interface{}, error) {
+// GetParameters of this Repository
+func (tr *Repository) GetParameters() (map[string]interface{}, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -72,8 +72,8 @@ func (tr *Hook) GetParameters() (map[string]interface{}, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this Hook
-func (tr *Hook) SetParameters(params map[string]interface{}) error {
+// SetParameters for this Repository
+func (tr *Repository) SetParameters(params map[string]interface{}) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -81,10 +81,10 @@ func (tr *Hook) SetParameters(params map[string]interface{}) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// LateInitialize this Hook using its observed tfState.
+// LateInitialize this Repository using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *Hook) LateInitialize(attrs []byte) (bool, error) {
-	params := &HookParameters{}
+func (tr *Repository) LateInitialize(attrs []byte) (bool, error) {
+	params := &RepositoryParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -95,6 +95,6 @@ func (tr *Hook) LateInitialize(attrs []byte) (bool, error) {
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *Hook) GetTerraformSchemaVersion() int {
+func (tr *Repository) GetTerraformSchemaVersion() int {
 	return 0
 }

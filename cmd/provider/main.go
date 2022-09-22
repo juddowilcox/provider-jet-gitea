@@ -36,12 +36,12 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/crossplane-contrib/provider-jet-gitea/apis"
-	"github.com/crossplane-contrib/provider-jet-gitea/apis/v1alpha1"
-	"github.com/crossplane-contrib/provider-jet-gitea/config"
-	"github.com/crossplane-contrib/provider-jet-gitea/internal/clients"
-	"github.com/crossplane-contrib/provider-jet-gitea/internal/controller"
-	"github.com/crossplane-contrib/provider-jet-gitea/internal/features"
+	"github.com/juddowilcox/provider-jet-gitea/apis"
+	"github.com/juddowilcox/provider-jet-gitea/apis/v1alpha1"
+	"github.com/juddowilcox/provider-jet-gitea/config"
+	"github.com/juddowilcox/provider-jet-gitea/internal/clients"
+	"github.com/juddowilcox/provider-jet-gitea/internal/controller"
+	"github.com/juddowilcox/provider-jet-gitea/internal/features"
 )
 
 func main() {

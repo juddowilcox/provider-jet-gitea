@@ -1,4 +1,4 @@
-module github.com/crossplane-contrib/provider-jet-gitea
+module github.com/juddowilcox/provider-jet-gitea
 
 go 1.17
 

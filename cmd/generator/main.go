@@ -25,7 +25,7 @@ import (
 
 	"github.com/crossplane/terrajet/pkg/pipeline"
 
-	"github.com/crossplane-contrib/provider-jet-gitea/config"
+	"github.com/juddowilcox/provider-jet-gitea/config"
 )
 
 func main() {

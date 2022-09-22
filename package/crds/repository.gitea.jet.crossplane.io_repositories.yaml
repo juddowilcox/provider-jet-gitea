@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: users.gitea.gitea.jet.crossplane.io
+  name: repositories.repository.gitea.jet.crossplane.io
 spec:
-  group: gitea.gitea.jet.crossplane.io
+  group: repository.gitea.jet.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - giteajet
-    kind: User
-    listKind: UserList
-    plural: users
-    singular: user
+    kind: Repository
+    listKind: RepositoryList
+    plural: repositories
+    singular: repository
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: User is the Schema for the Users API
+        description: Repository is the Schema for the Repositorys API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: UserSpec defines the desired state of User
+            description: RepositorySpec defines the desired state of Repository
             properties:
               deletionPolicy:
                 default: Delete
@@ -63,44 +63,87 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  active:
-                    description: Flag if this user should be active or not
+                  allowManualMerge:
                     type: boolean
-                  admin:
-                    description: Flag if this user should be an administrator or not
+                  allowMergeCommits:
                     type: boolean
-                  allowCreateOrganization:
+                  allowRebase:
                     type: boolean
-                  allowGitHook:
+                  allowRebaseExplicit:
                     type: boolean
-                  allowImportLocal:
+                  allowSquashMerge:
                     type: boolean
+                  archived:
+                    type: boolean
+                  autoInit:
+                    description: Flag if the repository should be initiated with the
+                      configured values
+                    type: boolean
+                  autodetectManualMerge:
+                    type: boolean
+                  defaultBranch:
+                    description: The default branch of the repository. Defaults to
+                      `main`
+                    type: string
                   description:
-                    description: A description of the user
+                    description: The description of the repository.
                     type: string
-                  email:
-                    description: E-Mail Address of the user
+                  gitignores:
+                    description: A specific gitignore that should be commited to the
+                      repositoryon creation if `auto_init` is set to `true` Need to
+                      exist in the gitea instance
                     type: string
-                  forcePasswordChange:
-                    description: Flag if the user defined password should be overwritten
-                      or not
+                  hasIssues:
+                    description: A flag if the repository should have issue management
+                      enabled or not.
                     type: boolean
-                  fullName:
-                    description: Full name of the user
-                    type: string
-                  location:
-                    type: string
-                  loginName:
-                    description: The login name can differ from the username
-                    type: string
-                  maxRepoCreation:
-                    type: number
-                  mustChangePassword:
-                    description: Flag if the user should change the password after
-                      first login
+                  hasProjects:
+                    description: A flag if the repository should have the native project
+                      management enabled or not.
                     type: boolean
-                  passwordSecretRef:
-                    description: Password to be set for the user
+                  hasPullRequests:
+                    description: A flag if the repository should acceppt pull requests
+                      or not.
+                    type: boolean
+                  hasWiki:
+                    description: A flag if the repository should have the native wiki
+                      enabled or not.
+                    type: boolean
+                  ignoreWhitespaceConflicts:
+                    type: boolean
+                  issueLabels:
+                    description: The Issue Label configuration to be used in this
+                      repository. Need to exist in the gitea instance
+                    type: string
+                  license:
+                    description: The license under which the source code of this repository
+                      should be. Need to exist in the gitea instance
+                    type: string
+                  migrationCloneAddress:
+                    type: string
+                  migrationCloneAddresse:
+                    description: DEPRECATED in favor of `migration_clone_address`
+                    type: string
+                  migrationIssueLabels:
+                    type: boolean
+                  migrationLfs:
+                    type: boolean
+                  migrationLfsEndpoint:
+                    type: string
+                  migrationMilestones:
+                    type: boolean
+                  migrationMirrorInterval:
+                    description: valid time units are 'h', 'm', 's'. 0 to disable
+                      automatic sync
+                    type: string
+                  migrationReleases:
+                    type: boolean
+                  migrationService:
+                    description: git/github/gitlab/gitea/gogs
+                    type: string
+                  migrationServiceAuthPasswordSecretRef:
+                    description: A SecretKeySelector is a reference to a secret key
+                      in an arbitrary namespace.
                     properties:
                       key:
                         description: The key to select.
@@ -116,27 +159,46 @@ spec:
                     - name
                     - namespace
                     type: object
-                  prohibitLogin:
-                    description: Flag if the user should not be allowed to log in
-                      (bot user)
+                  migrationServiceAuthTokenSecretRef:
+                    description: A SecretKeySelector is a reference to a secret key
+                      in an arbitrary namespace.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  migrationServiceAuthUsername:
+                    type: string
+                  mirror:
                     type: boolean
-                  restricted:
+                  name:
+                    description: The Name of the repository
+                    type: string
+                  private:
+                    description: Flag if the repository should be private or not.
                     type: boolean
-                  sendNotification:
-                    description: Flag to send a notification about the user creation
-                      to the defined `email`
+                  readme:
+                    type: string
+                  repoTemplate:
                     type: boolean
                   username:
-                    description: Username of the user to be created
+                    description: The Owner of the repository
                     type: string
-                  visibility:
-                    description: Visibility of the user. Can be `public`, `limited`
-                      or `private`
+                  website:
+                    description: A link to a website with more information.
                     type: string
                 required:
-                - email
-                - loginName
-                - passwordSecretRef
+                - name
                 - username
                 type: object
               providerConfigRef:
@@ -236,11 +298,21 @@ spec:
             - forProvider
             type: object
           status:
-            description: UserStatus defines the observed state of User.
+            description: RepositoryStatus defines the observed state of Repository.
             properties:
               atProvider:
                 properties:
+                  created:
+                    type: string
                   id:
+                    type: string
+                  permissionAdmin:
+                    type: boolean
+                  permissionPull:
+                    type: boolean
+                  permissionPush:
+                    type: boolean
+                  updated:
                     type: string
                 type: object
               conditions:

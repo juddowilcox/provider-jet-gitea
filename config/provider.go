@@ -23,8 +23,7 @@ import (
 	tjconfig "github.com/crossplane/terrajet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	// import gitea custom resources
-	"github.com/juddowilcox/provider-jet-gitea/config/repository"
+        "github.com/juddowilcox/provider-jet-gitea/config/repository"
 )
 
 const (

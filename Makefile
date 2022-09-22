@@ -2,7 +2,7 @@
 # Setup Project
 
 PROJECT_NAME := provider-jet-gitea
-PROJECT_REPO := github.com/crossplane-contrib/$(PROJECT_NAME)
+PROJECT_REPO := github.com/juddowilcox/$(PROJECT_NAME)
 GOLANGCILINT_VERSION ?= 1.48.0
 
 export TERRAFORM_VERSION := 1.2.9
