@@ -22,11 +22,14 @@ import (
 
 	tjconfig "github.com/crossplane/terrajet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	// import gitea custom resources
+	"github.com/juddowilcox/provider-jet-gitea/config/repository"
 )
 
 const (
 	resourcePrefix = "gitea"
-	modulePath     = "github.com/crossplane-contrib/provider-jet-gitea"
+	modulePath     = "github.com/juddowilcox/provider-jet-gitea"
 )
 
 //go:embed schema.json
@@ -44,12 +47,13 @@ func GetProvider() *tjconfig.Provider {
 	pc := tjconfig.NewProviderWithSchema([]byte(providerSchema), resourcePrefix, modulePath,
 		tjconfig.WithDefaultResourceFn(defaultResourceFn),
 		tjconfig.WithIncludeList([]string{
-			".*",
+			"gitea_repository$",
 		}),
 	)
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		// add custom config functions
+		repository.Configure,
 	} {
 		configure(pc)
 	}

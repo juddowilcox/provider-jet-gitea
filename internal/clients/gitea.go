@@ -41,17 +41,13 @@ const (
 	errExtractCredentials   = "cannot extract credentials"
 	errUnmarshalCredentials = "cannot unmarshal gitea credentials as JSON"
 
-	keyClientID            = "client_id"
-	keyClientSecret        = "client_secret"
-	keyAuthToken           = "auth_token"
-	keyEndpoint            = "endpoint"
-	keyRequestTimeout      = "request_timeout"
-	keyResponseMaxPageSize = "response_max_page_size"
-
+	// Gitea credential keys
+        keyBaseURL = "base_url"
+        keyUsername = "username"
+        keyPassword = "password"
 	// Gitea credentials environment variable names
-	envClientID     = "GITEA_API_CLIENTID"
-	envClientSecret = "GITEA_API_CLIENTSECRET"
-	envAuthToken    = "METAL_AUTH_TOKEN"
+        envUsername = "GITEA_USERNAME"
+        envPassword = "GITEA_PASSWORD"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -94,16 +90,13 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		// credentials via the environment variables. You should specify
 		// credentials via the Terraform main.tf.json instead.
 		ps.Env = []string{
-			fmt.Sprintf(fmtEnvVar, envClientID, giteaCreds[keyClientID]),
-			fmt.Sprintf(fmtEnvVar, envClientSecret, giteaCreds[keyClientSecret]),
-			fmt.Sprintf(fmtEnvVar, envAuthToken, giteaCreds[keyAuthToken]),
+			fmt.Sprintf(fmtEnvVar, envUsername, giteaCreds[keyUsername]),
+			fmt.Sprintf(fmtEnvVar, envPassword, giteaCreds[keyPassword]),
 		}
 		// set credentials in Terraform provider configuration
 		ps.Configuration = map[string]interface{}{}
 		for _, key := range []string{
-			keyEndpoint,
-			keyRequestTimeout,
-			keyResponseMaxPageSize,
+			keyBaseURL,
 		} {
 			if giteaCreds[key] != "" {
 				ps.Configuration[key] = giteaCreds[key]
