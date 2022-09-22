@@ -22,7 +22,7 @@ import (
 	"github.com/crossplane/terrajet/pkg/controller"
 
 	providerconfig "github.com/juddowilcox/provider-jet-gitea/internal/controller/providerconfig"
-	repository "github.com/juddowilcox/provider-jet-gitea/internal/controller/repository/repository"
+	repository "github.com/juddowilcox/provider-jet-gitea/internal/controller/resources/repository"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to

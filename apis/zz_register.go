@@ -22,7 +22,7 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/juddowilcox/provider-jet-gitea/apis/repository/v1alpha1"
+	v1alpha1 "github.com/juddowilcox/provider-jet-gitea/apis/resources/v1alpha1"
 	v1alpha1apis "github.com/juddowilcox/provider-jet-gitea/apis/v1alpha1"
 )
 

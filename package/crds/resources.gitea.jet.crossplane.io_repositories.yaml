@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: repositories.repository.gitea.jet.crossplane.io
+  name: repositories.resources.gitea.jet.crossplane.io
 spec:
-  group: repository.gitea.jet.crossplane.io
+  group: resources.gitea.jet.crossplane.io
   names:
     categories:
     - crossplane
