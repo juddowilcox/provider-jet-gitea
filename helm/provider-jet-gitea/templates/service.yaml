@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "provider-jet-gitea.fullname" . }}
+  labels:
+    {{- include "provider-jet-gitea.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "provider-jet-gitea.selectorLabels" . | nindent 4 }}
