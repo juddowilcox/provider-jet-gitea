@@ -1,0 +1,8 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: crossplane-provider-jet-gitea
+spec:
+  package: {{ include "global.registry" . }}{{ include "provider.image.repository" . }}/provider-jet-gitea:{{ include "provider.image.tag" . }}
+  controllerConfigRef:
+    name: jet-gitea-config

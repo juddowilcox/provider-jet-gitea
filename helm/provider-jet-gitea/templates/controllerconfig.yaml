@@ -1,0 +1,19 @@
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: jet-gitea-config
+  labels:
+    app: crossplane-provider-jet-gitea
+spec:
+  image: {{ include "global.registry" . }}{{ include "controllerconfig.image.repository" . }}/{{ include "controllerconfig.image.name" . }}:{{ include "controllerconfig.image.tag" . }}
+  {{- include "controllerconfig.args" . | indent 2 }}
+  {{- include "image.pullPolicy" . | indent 2 }}
+  {{- include "replicas" . | indent 2 }}
+  {{- include "serviceAccount.name" . | indent 2 }}
+  {{- include "affinity" . | indent 2 }}
+  {{- include "imagePullSecrets" . | indent 2 }}
+  {{- include "nodeSelector" . | indent 2 }}
+  {{- include "podSecurityContext" . | indent 2 }}
+  {{- include "resources" . | indent 2 }}
+  {{- include "securityContext" . | indent 2 }}
+  {{- include "tolerations" . | indent 2 }}
